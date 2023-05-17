@@ -44,9 +44,9 @@ export class R2Card extends LitElement {
     return html`
       <div class="card-header">${this.title}</div>
       <div class="card-content">
-        <slot></slot>
+        <slot name="content"></slot>
       </div>
-      <div class="card-footer">${this.footer}         <slot name="footer"></slot></div>
+      <div class="card-footer">${this.footer}<slot name="footer"></slot></div>
     `;
   }
 }

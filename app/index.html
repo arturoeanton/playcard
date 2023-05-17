@@ -12,7 +12,6 @@
   <style>
       body{
           font-family: Arial, Helvetica, sans-serif;
-  
           width: 100%;
           padding: 10px;
           background: #222;
@@ -21,10 +20,109 @@
 
   <script>
 
-    function saveCard(){
+    function removeCard(id){
+        const l = document.getElementById('loading')
+        l.loading=true
         let modal = document.getElementById('modal');
-        alert(modal.header + ' ' + modal.body);
+        const url = 'root/cards/'+id 
+
+        const options = {
+          method: 'DELETE'
+        };
+
+        fetch(url, options)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data); 
+            l.loading=false
+            search = document.getElementById('search')
+            search.search()
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            l.loading=false
+          });
     }
+
+    function saveCard(){
+        const l = document.getElementById('loading')
+        l.loading=true
+        let modal = document.getElementById('modal');
+        const url = 'root/cards'; // Reemplaza con la URL correcta de tu endpoint
+        const data = {
+          title: modal.header,
+          content: modal.body,
+        };
+
+        const options = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        };
+
+        fetch(url, options)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data); 
+            l.loading=false
+            search = document.getElementById('search')
+            search.search()
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            l.loading=false
+          });
+    }
+
+    function editCard(btn, parent_id){
+
+      console.log(btn.parentElement, parent_id.split('-id-')[1])
+      modalEdit = document.getElementById('modalEdit')
+      modalEdit.header = btn.parentElement.title
+      modalEdit.body = btn.parentElement.querySelector('div[slot="content"]').innerHTML.trim()
+      modalEdit.hiddenValue = parent_id.split('-id-')[1]
+      modalEdit.isOpen = true
+    }
+
+    function updateCard(){
+        const modalEdit = document.getElementById('modalEdit')
+        const l = document.getElementById('loading')
+        const id = modalEdit.hiddenValue
+        l.loading=true
+        const url = 'root/cards/'+id; // Reemplaza con la URL correcta de tu endpoint
+        const data = {
+          title:  modalEdit.header,
+          content: modalEdit.body,
+        };
+
+        const options = {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        };
+
+        fetch(url, options)
+          .then(response => response.json())
+          .then(data => {
+            console.log(data); 
+            l.loading=false
+            search = document.getElementById('search')
+            search.search()
+          })
+          .catch(error => {
+            console.error('Error:', error);
+            l.loading=false
+          });
+    }
+
+    function deleteCard(btn, parent_id){
+      removeCard(parent_id.split('-id-')[1])
+    }
+
   </script>
 </head>
 
@@ -35,13 +133,13 @@
     <r2-sidecard>
         <h2>Menu</h2>
         <p>
-            <r2-button-bar add-button-handler="const modal = document.querySelector('r2-modal'); modal.isOpen = true;"></r2-button-bar>
+            <r2-button-bar  add-text="Add Card" add-button-handler="() => {const modal = document.querySelector('r2-modal'); modal.title= ''; modal.body=''; modal.isOpen = true;}"></r2-button-bar>
             <!--<r2-menu items="() => {return [
                 {item:'Item 1', fx:()=>{console.log('1')}}, 
                 {item:'Item 2', fx:()=>{console.log('2')}},
                 {item:'Item 3', fx:()=>{console.log('3')}},
                 ]}"> </r2-menu> -->
-         </p>
+        </p>
     </r2-sidecard>
 
     <r2-modal
@@ -49,13 +147,20 @@
     title="New Card"
     placeholder-header="Header"
     placeholder-body="Content"
-    button-text="Save!"
+    button-text="Save"
     save-handler="saveCard()"
-  ></r2-modal>
-    
-    <r2-search-cards>
-       
-    </r2-search-cards>
+    ></r2-modal>
+
+    <r2-modal
+    id="modalEdit"
+    title="Edit Card"
+    placeholder-header="Header"
+    placeholder-body="Content"
+    button-text="Save"
+    save-handler="updateCard()"
+    ></r2-modal>
+
+    <r2-search-cards edit-button-handler="editCard" delete-button-handler="deleteCard" id="search"></r2-search-cards>
 
     
 

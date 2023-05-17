@@ -89,6 +89,7 @@ export class R2Modal extends LitElement {
     saveHandler: { type: String },
     placeholderHeader: { type: String },
     placeholderBody: { type: String },
+    hiddenValue: { type: String },
   };
 
 
@@ -106,6 +107,7 @@ export class R2Modal extends LitElement {
       }
 
     }
+
     if (changedProperties.has('placeholderHeader')) {
       this.placeholderHeader = this.getAttribute('placeholder-header');
     }
@@ -125,6 +127,7 @@ export class R2Modal extends LitElement {
     this.isOpen = false;
     this.placeholderHeader = 'Header';
     this.placeholderBody = 'Body';
+    this.hiddenValue = '';
   }
 
   handleClose() {
@@ -132,6 +135,13 @@ export class R2Modal extends LitElement {
   }
 
   handlerSaveFx() {
+  }
+
+  handler(handlerFx) {
+    return () => {
+      handlerFx();
+      this.isOpen = false;
+    }
   }
 
 
@@ -147,19 +157,21 @@ export class R2Modal extends LitElement {
           <button class="close-button" @click="${this.handleClose}">X</button>
           <div class="modal-header">${this.title}</div>
           <div class="modal-body">
+            <input type="hidden" value="${this.hiddenValue}" />
             <input
               class="input-header"
               type="text"
               @input="${(e) => this.header = e.target.value}"
               placeholder="${this.placeholderHeader}"
+              value="${this.header}"
             />
             <textarea
               rows="4"
               @input="${(e) => this.body = e.target.value}"
               placeholder="${this.placeholderBody}"
-            ></textarea>
+            >${this.body}</textarea>
           </div>
-          <button class="save-button" @click="${this.handlerSaveFx}">${this.buttonText}</button>
+          <button class="save-button" @click="${this.handler(this.handlerSaveFx)}">${this.buttonText}</button>
         </div>
       </div>
     `;

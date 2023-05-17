@@ -37,6 +37,10 @@ export class R2ButtonBar extends LitElement {
     addButtonHandler: { type: String },
     deleteButtonHandler: { type: String },
     editButtonHandler: { type: String },
+    addText: { type: String },
+    deleteText: { type: String },
+    editText: { type: String },
+    parentId: { type: String },
   };
 
   constructor() {
@@ -44,13 +48,25 @@ export class R2ButtonBar extends LitElement {
     this.addButtonHandler = '';
     this.deleteButtonHandler = '';
     this.editButtonHandler = '';
-    this.addText = 'Agregar';
-    this.deleteText = 'Eliminar';
-    this.editText = 'Editar';
+    this.addText = 'Add';
+    this.deleteText = 'Remove';
+    this.editText = 'Edit';
+    this.parentId = '';
   }
 
   updated(changedProperties) {
     super.updated(changedProperties);
+
+    if (changedProperties.has('addText')) {
+      this.addText = this.getAttribute('add-text') || 'Add';
+    }
+    if (changedProperties.has('deleteText')) {
+      this.deleteText = this.getAttribute('delete-text') || 'Remove';
+    }
+    if (changedProperties.has('editText')) {
+      this.editText = this.getAttribute('edit-text') || 'Edit';
+    }
+
     if (changedProperties.has('addButtonHandler')) {
       this.addButtonHandler = this.getAttribute('add-button-handler');
     }
@@ -60,19 +76,24 @@ export class R2ButtonBar extends LitElement {
     if (changedProperties.has('editButtonHandler')) {
       this.editButtonHandler = this.getAttribute('edit-button-handler');
     }
+    if (changedProperties.has('parentId')) {
+      this.parentId = this.getAttribute('parent-id');
+    }
   }
 
   handleClick(handler) {
     if (typeof handler === 'function') {
       handler();
     } else if (typeof handler === 'string' && handler.trim() !== '') {
-      const func = new Function(handler);
-      func();
+      const func = new Function("return "+handler);
+      func()(this, this.parentId);
+    } else if (typeof handler === 'string' && handler.trim() === '') {
+      console.warn('No handler defined');
     }
   }
 
   renderButton(label, handler, className) {
-    if (handler == null) {
+    if (handler == undefined || handler == null || handler.trim() === '' ) {
       return html``;
     }
     return html`
