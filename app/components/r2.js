@@ -1,0 +1,9 @@
+import './r2-button-magic.js';
+import './r2-input.js';
+import './r2-avatars.js';
+import './r2-button-bar.js';
+import './r2-card.js';
+import './r2-loading-modal.js';
+import './r2-search-cards.js';
+import './r2-modal.js';
+import './r2-sidecard.js';
