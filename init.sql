@@ -14,6 +14,8 @@ CREATE TABLE Categories (
   user_owner VARCHAR(255) NOT NULL,
   name VARCHAR(255) NOT NULL,
   parent_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (parent_id) REFERENCES Categories(id)
 );
 
@@ -24,12 +26,16 @@ CREATE TABLE Cards (
   title VARCHAR(255) NOT NULL,
   content TEXT,
   category_id INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (category_id) REFERENCES Categories(id)
 );
 
 CREATE TABLE Tags (
   id INT PRIMARY KEY AUTO_INCREMENT,
   user_owner VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   name VARCHAR(255) NOT NULL
 );
 
@@ -37,6 +43,8 @@ CREATE TABLE CardTags (
   card_id INT,
   tag_id INT,
   user_owner VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   FOREIGN KEY (card_id) REFERENCES Cards(id),
   FOREIGN KEY (tag_id) REFERENCES Tags(id),
   PRIMARY KEY (card_id, tag_id)
@@ -44,3 +52,13 @@ CREATE TABLE CardTags (
 
 
 INSERT INTO Categories (user_owner, name) VALUES ('*', 'root');
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 1', 'contenido 1 <b>1</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 2', 'contenido 2 <b>2</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 3', 'contenido 3 <b>3</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 4', 'contenido 4 <b>4</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 5', 'contenido 5 <b>5</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 6', 'contenido 6 <b>6</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 7', 'contenido 7 <b>7</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 8', 'contenido 8 <b>8</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 9', 'contenido 9 <b>9</b>', 1);
+INSERT INTO Cards (user_owner, title, content, category_id) VALUES ('*', 'Title 10', 'contenido 10 <b>10</b>', 1);
