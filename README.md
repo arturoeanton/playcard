@@ -1,4 +1,4 @@
-# 96-mora
+# Playcard
 
 ```
 python -m venv venv
