@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
+app/.parcel-cache
 
 # Distribution / packaging
 .Python
