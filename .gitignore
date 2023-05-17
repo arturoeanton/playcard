@@ -8,6 +8,7 @@ __pycache__/
 
 app/.parcel-cache
 app/node_modules
+app/.cache
 
 # Distribution / packaging
 .Python
