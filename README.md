@@ -1,7 +1,7 @@
 # Playcard
 
 ```
-python -m venv venv
+python3 -m venv venv
 source venv/bin/activate
 pip install --upgrade pip
 pip install -r requirements.txt 
@@ -35,6 +35,6 @@ python main.py;
 
 ```
 APP_PORT=8080
-MIFOS_DB=mysql+mysqlconnector://root:supersecret@127.0.0.1/playcard
+DB=mysql+mysqlconnector://root:supersecret@127.0.0.1/playcard
 WORKERS_UVCORN=1
 ```
