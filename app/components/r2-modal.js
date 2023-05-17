@@ -84,22 +84,57 @@ export class R2Modal extends LitElement {
     header: { type: String },
     body: { type: String },
     isOpen: { type: Boolean },
+    buttonText: { type: String },
+    title: { type: String },
+    saveHandler: { type: String },
+    placeholderHeader: { type: String },
+    placeholderBody: { type: String },
   };
+
+
+  updated(changedProperties) {
+    super.updated(changedProperties);
+    if (changedProperties.has('buttonText')) {
+      this.buttonText = this.getAttribute('button-text');
+    }
+    if (changedProperties.has('saveHandler')) {
+      this.saveHandler = this.getAttribute('save-handler');
+      if (this.saveHandler == '' || this.saveHandler == null || this.saveHandler == undefined) {
+        this.handlerSaveFx = () => { console.log('click');};
+      }else{
+        this.handlerSaveFx = new Function(this.saveHandler);
+      }
+
+    }
+    if (changedProperties.has('placeholderHeader')) {
+      this.placeholderHeader = this.getAttribute('placeholder-header');
+    }
+    if (changedProperties.has('placeholderBody')) {
+      this.placeholderBody = this.getAttribute('placeholder-body');
+    }
+    
+  }
 
   constructor() {
     super();
-    this.header = 'Modal Header';
-    this.body = 'Modal Body';
+    this.title = 'Title'
+    this.header = '';
+    this.body = '';
+    this.buttonText = 'Save';
+    this.saveHandler = '';
     this.isOpen = false;
+    this.placeholderHeader = 'Header';
+    this.placeholderBody = 'Body';
   }
 
   handleClose() {
     this.isOpen = false;
   }
 
-  handleSave() {
-    console.log('Guardar clickeado');
+  handlerSaveFx() {
   }
+
+
 
   render() {
     if (!this.isOpen) {
@@ -110,24 +145,23 @@ export class R2Modal extends LitElement {
       <div class="modal">
         <div class="modal-content">
           <button class="close-button" @click="${this.handleClose}">X</button>
-          <div class="modal-header">${this.header}</div>
+          <div class="modal-header">${this.title}</div>
           <div class="modal-body">
             <input
               class="input-header"
               type="text"
-              .value="${this.header}"
-              @input="${(e) => (this.header = e.target.value)}"
+              @input="${(e) => this.header = e.target.value}"
+              placeholder="${this.placeholderHeader}"
             />
             <textarea
               rows="4"
-              .value="${this.body}"
-              @input="${(e) => (this.body = e.target.value)}"
+              @input="${(e) => this.body = e.target.value}"
+              placeholder="${this.placeholderBody}"
             ></textarea>
           </div>
-          <button class="save-button" @click="${this.handleSave}">Guardar</button>
+          <button class="save-button" @click="${this.handlerSaveFx}">${this.buttonText}</button>
         </div>
-      </
-div>
+      </div>
     `;
   }
 }

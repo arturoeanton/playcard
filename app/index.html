@@ -9,19 +9,27 @@
 
   <script  src="components/r2.js" type="module"></script>
  
+  <style>
+      body{
+          font-family: Arial, Helvetica, sans-serif;
+  
+          width: 100%;
+          padding: 10px;
+          background: #222;
+      }
+  </style>
+
+  <script>
+
+    function saveCard(){
+        let modal = document.getElementById('modal');
+        alert(modal.header + ' ' + modal.body);
+    }
+  </script>
 </head>
 
 
   
-<style>
-    body{
-        font-family: Arial, Helvetica, sans-serif;
-
-        width: 100%;
-        padding: 10px;
-        background: #222;
-    }
-</style>
 <body>
     <r2-loading-modal id="loading" ></r2-loading-modal>
     <r2-sidecard>
@@ -37,8 +45,12 @@
     </r2-sidecard>
 
     <r2-modal
-    header="Modal Header"
-    body="Modal Body"
+    id="modal"
+    title="New Card"
+    placeholder-header="Header"
+    placeholder-body="Content"
+    button-text="Save!"
+    save-handler="saveCard()"
   ></r2-modal>
     
     <r2-search-cards>
